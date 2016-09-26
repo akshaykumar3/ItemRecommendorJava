@@ -3,6 +3,7 @@ import org.apache.mahout.cf.taste.impl.common.LongPrimitiveIterator;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
 import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
@@ -16,14 +17,16 @@ import java.util.List;
  */
 public class ItemSimilarityRecommendation {
 
-    private static int NUMBER_OF_RECOMMENDATIONS = 5;
+    private static final int NUMBER_OF_RECOMMENDATIONS = 20;
 
     public static void main(String[] args) {
 
         try {
-            DataModel dm = new FileDataModel(new File("data/movies.csv"));
+//            DataModel dm = new FileDataModel(new File("ItemRecommendorJava/data/movies.csv"));
+            DataModel dm = new FileDataModel(new File("ItemRecommendorJava/data/ratings.csv"));
 
-            ItemSimilarity sim = new LogLikelihoodSimilarity(dm);
+//            ItemSimilarity sim = new LogLikelihoodSimilarity(dm);
+            ItemSimilarity sim = new PearsonCorrelationSimilarity(dm);
 
             GenericItemBasedRecommender recommendor = new GenericItemBasedRecommender(dm, sim);
 
@@ -34,6 +37,7 @@ public class ItemSimilarityRecommendation {
 
                 for(RecommendedItem recommendation : recommendations) {
                     System.out.println(itemId + ", "+ recommendation.getItemID() + ", "+ recommendation.getValue());
+//                    System.out.println("Recommendations : "+recommendation);
                 }
                 i++;
                 if(10 < i) System.exit(1);

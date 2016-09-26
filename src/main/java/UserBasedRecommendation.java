@@ -20,11 +20,11 @@ public class UserBasedRecommendation {
 
     public static void main(String[] args) {
         try {
-            DataModel dataModel = new FileDataModel(new File("data/movies.csv"));
+            DataModel dataModel = new FileDataModel(new File("ItemRecommendorJava/data/movies.csv"));
             UserSimilarity similarity = new PearsonCorrelationSimilarity(dataModel);
             UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, dataModel);
             UserBasedRecommender recommender = new GenericUserBasedRecommender(dataModel, neighborhood, similarity);
-            List<RecommendedItem> recommendations = recommender.recommend(2 /* User Id */, 3 /* Number of recommendations */);
+            List<RecommendedItem> recommendations = recommender.recommend(1 /* User Id */, 5 /* Number of recommendations */);
 
             for(RecommendedItem recommendation : recommendations) {
                 System.out.println("Recommendations : "+recommendation);
